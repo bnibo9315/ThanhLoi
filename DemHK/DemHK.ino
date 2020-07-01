@@ -1,8 +1,8 @@
 // Load Wi-Fi library
 #include <ESP8266WiFi.h>
 // Replace with your network credentials
-const char* ssid     = "PhongTro4NG";
-const char* password = "Adminlong98";
+const char* ssid     = "NguyenThanhLoi";
+const char* password = "1653020006";
 
 WiFiServer server(80);
 // Variable to store the HTTP request
@@ -25,19 +25,27 @@ void setup() {
   Serial.begin(115200);
   pinMode(sensorIN, INPUT);
   pinMode(sensorOUT, INPUT);
-  // Connect to Wi-Fi network with SSID and password
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  // Print local IP address and start web server
-  Serial.println("");
-  Serial.println("WiFi connected.");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+  WiFi.softAP(ssid, password);             // Start the access point
+  Serial.print("Access Point \"");
+  Serial.print(ssid);
+  Serial.println("\" started");
+
+  Serial.print("IP address:\t");
+  Serial.println(WiFi.softAPIP());
+//  delay(1000);
+// Connect to Wi-Fi network with SSID and password
+//  Serial.print("Connecting to ");
+//  Serial.println(ssid);
+//  WiFi.begin(ssid, password);
+//  while (WiFi.status() != WL_CONNECTED) {
+//    delay(500);
+//    Serial.print(".");
+//  }
+//  // Print local IP address and start web server
+//  Serial.println("");
+//  Serial.println("WiFi connected.");
+//  Serial.println("IP address: ");
+//  Serial.println(WiFi.localIP());
   server.begin();
 }
 void loop() {
@@ -56,9 +64,6 @@ void loop() {
     count -= 1;
     delay(500);
   }
-  Serial.print("Total : ");
-  Serial.println(count);
-
 
 
 
