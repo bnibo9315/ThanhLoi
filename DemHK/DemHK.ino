@@ -32,20 +32,6 @@ void setup() {
 
   Serial.print("IP address:\t");
   Serial.println(WiFi.softAPIP());
-//  delay(1000);
-// Connect to Wi-Fi network with SSID and password
-//  Serial.print("Connecting to ");
-//  Serial.println(ssid);
-//  WiFi.begin(ssid, password);
-//  while (WiFi.status() != WL_CONNECTED) {
-//    delay(500);
-//    Serial.print(".");
-//  }
-//  // Print local IP address and start web server
-//  Serial.println("");
-//  Serial.println("WiFi connected.");
-//  Serial.println("IP address: ");
-//  Serial.println(WiFi.localIP());
   server.begin();
 }
 void loop() {
@@ -99,29 +85,71 @@ void loop() {
             // CSS to style the on/off buttons
             // Feel free to change the background-color and font-size attributes to fit your preferences
             client.println("<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}");
-            client.println(".button { background-color: #195B6A; border: none; color: white; padding: 16px 40px;");
+            client.println(".button { background-color: #195B6A; border: none; color: white; padding: 16px 30px;");
             client.println("text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer;}");
-            client.println(".button2 {background-color: #77878A;}</style></head>");
-
+            client.println(".button1 {background-color: Green; border-radius: 4px;}");
+            client.println(".button2 {background-color: Red; border-radius: 4px;}</style>");
+//            client.println("<script>function Reset(){var x = document.getElementById(\"Reset\"); x.setAttribute(\"src\", \"http://192.168.4.1/reset\");};");
+//            client.println("</script>");
+            client.println("</head>");
             // Web Page Heading
             client.println("<body style=\"background-image: url('https://d3av3o1z276gfa.cloudfront.net/images/place/gYsaVvlH265n2JW3YW9UNYNIm0qDwuK8.jpeg');background-repeat: no-repeat;background-attachment: fixed;background-position: bottom;background-size: 300px 400px;height: 1600;width:2560;\"><h1 style='font-size: 60px;'>Number airport passenger </h1>");
             client.print("<strong><p style='font-size: 35px;text-align: left;margin-left: 450px;color: red;'>Total : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a>");
-            client.print(ava);
+            if (header.indexOf("GET /reset") >= 0) {
+              ava = 0;
+              client.print(ava);
+            if (header.indexOf("GET /continue") >= 0) {
+            if(ava < 0)
+            {
+              client.print("0");
+              ava =0 ;
+              }
+              else{
+                client.print(ava);
+                }
+            }
+            }else{
+              if(ava < 0)
+            {
+              client.print("0");
+              ava =0 ;
+              }
+              else{
+                client.print(ava);
+                }
+              }
             client.print("</a></p></strong>");
             client.print("<strong><p style='font-size: 35px;text-align: left;margin-left: 450px;color: green;'>Available : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a>");
+            if (header.indexOf("GET /reset") >= 0) {
+              count = 0;
+              client.print(count);
+            if (header.indexOf("GET /continue") >= 0) {
             if(count < 0)
             {
               client.print("0");
+              count =0 ;
               }
               else{
                 client.print(count);
                 }
-            
+            }
+            }else{
+              if(count < 0)
+            {
+              client.print("0");
+              count =0 ;
+              }
+              else{
+                client.print(count);
+                }
+              }
+
+                
             client.println("</a></p></strong>");
             client.println("<body style=\"background-image: url('https://d3av3o1z276gfa.cloudfront.net/images/place/gYsaVvlH265n2JW3YW9UNYNIm0qDwuK8.jpeg');background-repeat: no-repeat;background-attachment: fixed;background-position: bottom;background-size: 300px 400px;height: 1600;width:2560;\"><h1 style='font-size: 50px;'>Information: </h1>");
             client.print("<strong><p style='font-size: 35px;text-align: left;margin-left: 450px;'>Name : Nguyễn Thành Lợi <a>");
             client.print("<strong><p style='font-size: 35px;text-align: left;margin-left: 450px;'>MSSV : 1653020006 <a>");
-            
+            client.print("<p><button onclick=\"location.href='/reset';\"  class=\"button button2\">Reset</button><button onclick=\"location.href='/continue';\"  class=\"button button1\">Continue</button>");
             client.println("</body></html>");
 
             // The HTTP response ends with another blank line
